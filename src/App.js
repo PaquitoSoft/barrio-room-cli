@@ -1,9 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { getValue } from './plugins/local-cache';
+import { getValue, removeValue } from './plugins/local-cache';
 import Login from './components/login/login';
 import { Container } from '@material-ui/core';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { STORAGE } from './constants';
 import PeopleGrid from './components/people-grid/people-grid';
+
+const styles = {
+	header: {
+		display: 'flex',
+		justifyContent: 'space-between'
+	},
+	title: {
+		display: 'inline-block'
+	},
+	close: {
+		fontSize: 50,
+		marginTop: 21,
+		cursor: 'pointer'
+	}
+};
 
 function App() {
 	const [userData, setUserData] = useState(getValue(STORAGE.USER_DATA));
@@ -13,6 +29,11 @@ function App() {
 		console.log('User logged:', userData);
 		setUserData(userData);
 	};
+
+	const logout = () => {
+		removeValue(STORAGE.USER_DATA);
+		setUserData(null);
+	}
 
 	useEffect(() => {
 		if (userData) {
@@ -34,7 +55,10 @@ function App() {
 	return (
 		<div className="App">
 			<Container component="main" maxWidth="xl">
-				<h1>Ya estás en el barrio</h1>
+				<header style={styles.header}>
+					<h1 style={styles.title}>Ya estás en el barrio</h1>
+					<HighlightOffIcon style={styles.close} onClick={logout} />
+				</header>
 				<PeopleGrid localUser={userData} localStream={localStream} buddies={[]} />
 			</Container>
 		</div>

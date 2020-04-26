@@ -15,6 +15,8 @@ function App() {
 
 	const logout = () => {
 		removeValue(STORAGE.USER_DATA);
+		localStream.getAudioTracks()[0].stop();
+		localStream.getVideoTracks()[0].stop();
 		setUserData(null);
 	}
 
@@ -28,11 +30,31 @@ function App() {
 				setLocalStream(stream);
 			})
 			.catch(console.error);
+			/*
+				HANDLING ERROR:
+				if (err.name == "NotFoundError" || err.name == "DevicesNotFoundError") {
+					//required track is missing 
+				} else if (err.name == "NotReadableError" || err.name == "TrackStartError") {
+					//webcam or mic are already in use 
+				} else if (err.name == "OverconstrainedError" || err.name == "ConstraintNotSatisfiedError") {
+					//constraints can not be satisfied by avb. devices 
+				} else if (err.name == "NotAllowedError" || err.name == "PermissionDeniedError") {
+					//permission denied in browser 
+				} else if (err.name == "TypeError" || err.name == "TypeError") {
+					//empty constraints object 
+				} else {
+					//other errors 
+				}
+			*/
 		}
 	}, [userData]);
 
 	if (!userData) {
 		return <Login onUserLogged={onUserLogged} />
+	}
+
+	if (!localStream) {
+		return (<div>Loading...</div>);
 	}
 
 	return (

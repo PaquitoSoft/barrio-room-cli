@@ -1,4 +1,7 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
+import Logger from '../../plugins/logger';
+
+const logger = new Logger('PersonVideo');
 
 const styles = {
     videoStream: {
@@ -8,11 +11,12 @@ const styles = {
 };
 
 function PersonVideo({ personData, stream }) {
-    const $video = useRef();
+	const $video = useRef();
+	// logger.log(`Rendering ${personData} with stream: ${stream}`);
 
-    if ($video.current) {
-        $video.current.srcObject = stream;
-    }
+	useEffect(() => {
+		$video.current.srcObject = stream;
+	}, [stream]);
 
     return (
         <div className="person-video">
@@ -23,6 +27,7 @@ function PersonVideo({ personData, stream }) {
                 muted 
                 autoPlay 
             />
+			<div className="person-video">{personData && personData.nickname}</div>
         </div>
     );
 }

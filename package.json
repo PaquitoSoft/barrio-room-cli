@@ -15,9 +15,11 @@
     "socket.io-client": "^2.3.0"
   },
   "scripts": {
+	"debug": "set HTTPS=true&&npm start",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+	"test": "react-scripts test",
+	"deploy": "npm run build && surge ./build --domain https://barrio-room.surge.sh",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -34,5 +36,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "surge": "^0.21.3"
   }
 }

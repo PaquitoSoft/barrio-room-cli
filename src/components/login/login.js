@@ -69,7 +69,6 @@ function Login({ onUserLogged }) {
 	useEffect(() => {
 		navigator.mediaDevices.enumerateDevices()
 			.then(devices => {
-				console.log(devices);
 				setAvailableDevices(devices);
 			})
 	}, []);
